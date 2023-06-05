@@ -1,6 +1,6 @@
 # Reparameterized Policy Learning
 
-### [Project Page](https://haosulab.github.io/RPG/) | Paper | Video
+### [Project Page](https://haosulab.github.io/RPG/) | [Paper](icml2023_rpg_camera_ready.pdf) | Video
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haosulab/RPG/blob/main/tiny_rpg/tiny-rpg-bandit.ipynb)
 

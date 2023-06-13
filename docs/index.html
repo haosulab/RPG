@@ -46,6 +46,9 @@
       <div class="columns is-centered">
         <div class="column has-text-centered">
           <h1 class="title is-1 publication-title">Reparameterized Policy Learning <a href="https://haosulab.github.io/RPG/"><img src="static/images/favicon-32x32.png"></a><br> for Multimodal Trajectory Optimization</h1>
+          <div class="is-size-4 publication-authors">
+            <span class="author-block">ICML 2023 Oral Presentation</span>
+          </div>
           <div class="is-size-5 publication-authors">
             <span class="author-block">
               <a href="https://sites.google.com/view/zhiao-huang">Zhiao Huang</a><sup>1</sup>,</span>
@@ -74,7 +77,7 @@
           <div class="column has-text-centered">
             <div class="publication-links">
               <span class="link-block">
-                <a href="https://github.com/haosulab/RPG/blob/main/icml2023_rpg_camera_ready.pdf"
+                <a href="static/icml2023_rpg_camera_ready.pdf"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fas fa-file-pdf"></i>
@@ -83,7 +86,7 @@
                 </a>
               </span>
               <span class="link-block">
-                <a href="https://colab.research.google.com/github/haosulab/RPG"
+                <a href="https://github.com/haosulab/RPG"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fab fa-github"></i>
@@ -249,7 +252,7 @@
 
 
 <section class="hero is-small has-text-black"><br>
-  <h1 class="title has-text-centered">Is Gaussian Policy Good Enough?</h1>
+  <h1 class="title has-text-centered">Is Gaussian Policy All You Need?</h1>
   <div class="container is-four-fifths">
     <div class="columns is-centered">
 
@@ -260,12 +263,11 @@
       <div class="column is-5">
         <p>
           Consider maximizing a continuous reward function with two modalities as shown in (A). 
-          When the action space is properly discretized, a SoftMax policy can model the multimodal distribution and find the global optimum 
-          after sampling over the entire action space as shown in (B). 
+          When the action space is properly discretized, a SoftMax policy can model the multimodal distribution and find the global optimum (B). 
           However, discretization can lead to a loss of accuracy and efficiency. 
           If we instead use a Gaussian policy by the common practice in literature, we will have trouble -- as shown in (C), 
-          even if its standard deviation is so large to well cover both modalities, the policy gradient can push it towards the local optimum on the right side, 
-          causing it to fail to converge to the global optimum. To address the issue, a more flexible policy parameterization is needed for continuous RL problems, 
+          even if its standard deviation is large enough to cover both modes, the policy gradient is pointing towards the local optimum. 
+          To address the issue, a more flexible policy parameterization is needed for continuous RL problems, 
           one that is simple to sample and optimize.
         </p>
       </div>
@@ -277,7 +279,7 @@
 
 <section class="hero is-small has-text-black"><br>
 
-  <h1 class="title has-text-centered">Reward with Local Optima: Continuous Bandit</h1>
+  <h1 class="title has-text-centered">Dense Reward with Local Optima</h1>
 
   <div class="container is-four-fifths">
     <div class="columns is-centered has-text-centered">
@@ -286,7 +288,7 @@
           <source src="./static/videos/tiny_rpg.mp4" type="video/mp4">
         </video>
         <h2 class="subtitle has-text-centered">
-          <span class="dnerf">Reparameterized Policy Gradient (RPG)</span> optimizes a multimodal trajectory distribution<br>
+          The behavior of Gaussian policy and Our method on a continuous bandit problem
         </h2>
         <div class="has-text-centered">
           <a target="_blank" href="https://colab.research.google.com/github/haosulab/RPG/blob/main/tiny_rpg/tiny-rpg-bandit.ipynb">
@@ -302,21 +304,21 @@
           <p>
             This illustrative example compares the performance of our method with a single modality Gaussian policy optimized by REINFORCE. 
             The Gaussian policy, initialized at 0 with a large standard deviation, can cover the whole solution space. 
-            However, the gradient w.r.t mu is positive, which means the action probability density will be pushed towards the right, 
-            as the expected return on the right side is larger than the left side, although the left side contains a higher extreme value. 
-            As a result, the policy will move right and get stuck at the local optimum with a low chance of jumping out.
-            In contrast, under the entropy maximization formulation, our method maximizes the reward while seeking to increase diversity, 
+            However, the gradient is positive, which means the action probability density will be pushed towards the right, 
+            as the expected return on the right side is larger than the left side. 
+            As a result, the policy get stuck at the local optimum.
+            In contrast, under the entropy maximization formulation, our method maximizes the reward while 
             providing more chances for the policy to explore the whole solution space. Furthermore, 
-            by turning the latent variables into action distribution, our method can build a multimodal policy distribution that fits the multimodal rewards, explore
+            our method can build a multimodal action distribution that fits the multimodal rewards, explore
             both modalities simultaneously, and eventually stabilize at the global optimum. 
-            This experiment suggests that a multimodal policy is necessary for reward maximization, and our method can help the policy better handle local optima.
+            This experiment suggests that a multimodal policy is necessary for reward maximization, 
+            and our method can help the policy better handle local optima.
           </p>
         </div>
       </div>
     </div>
   </div>
 
-  
   <br>
 </section>
 
@@ -351,7 +353,7 @@
 
 <section class="hero is-small"><br>
 
-  <h1 class="title has-text-centered">Exploring with Intrinsic Reward: 2D Maze Navigation</h1>
+  <h1 class="title has-text-centered">Sparse Reward Exploration</h1>
 
   <div class="container is-four-fifths">
     <div class="columns is-centered has-text-centered">
@@ -385,9 +387,9 @@
       <div class="column is-four-fifths">
         <div class="content has-text-justified has-text-black">
           <p>
-            We apply RPG and single-modality model-based SAC on this environment to maximize only the intrinsic reward. 
+            We apply RPG and single-modality model-based SAC on a 2D maze navigation task to maximize only the intrinsic reward (RND). 
             The results suggests that our method explores the domain much faster, quickly reaching most grids, 
-            while the Gaussian agent only covers the right part of the maze within a limited sample budget.
+            while the Gaussian agent (SAC) only covers the right part of the maze within a limited sample budget.
           </p>
         </div>
       </div>
@@ -400,7 +402,7 @@
 
 <section class="hero is-small"><br>
 
-  <h1 class="title has-text-centered">Experiment Results</h1>
+  <h1 class="title has-text-centered">Experiment Results on Continuous Action Space Environments</h1>
 
   <div class="container is-four-fifths">
 
@@ -426,7 +428,7 @@
     <div class="columns is-centered has-text-centered is-four-fifths">
       <div class="column is-one-fifth">
         <img src="./static/images/envs/AntPush.png" width="100%">
-        <h3 class="subtitle has-text-centered">AntPush</h3>
+        <h3 class="subtitle has-text-centered">AntPush (Dense)</h3>
       </div>
       <div class="column is-one-fifth">
         <img src="./static/images/envs/BlockPush2.png" width="100%">
@@ -463,24 +465,29 @@
       <div class="column is-four-fifths">
         <div class="content has-text-justified has-text-black">
           <p>
-            We first observe that, for dense reward tasks, our method largely improves the success rate on tasks with local optima. 
+            For dense reward tasks, our method largely improves the success rate on tasks with local optima. 
             We can see that in both AntPush and Cabinet (Dense) tasks, our method outperforms all baselines. 
             Our method consistently finds solutions, regardless of the local optima in the environments. 
             For example, in the task of opening the cabinets' two doors and going to the two sides of the block, 
             our method usually explores the two directions simultaneously and converges at the global optima. In contrast, 
-            other methods' performance highly depends on their initialization. If the algorithm starts by opening the wrong doors or pushing the block in the wrong direction, 
-            it will not escape from the local minimums; thus, its success rates are low.
+            other methods' performance highly depends on their initialization. 
+            If the algorithm starts by opening the wrong doors or pushing the block in the wrong direction, 
+            it will not escape from the local optima; thus, its success rates are low.
           </p>
           <p>
             Our methods successfully solve the 6 sparse reward tasks. 
             Especially, it consistently outperforms the MBSAC(R) baseline, 
             which is a method that only differs from ours by the existence of latent variables to parameterize the policy. 
-            Our method reliably discovers solutions in environments that are extremely challenging for other methods (e.g., the StickPull environment), 
-            clearly demonstrating the advantages of our method in exploration. Notably, we find that MBSAC(R), which is equipped with our object-centric RND, 
-            is a strong baseline that can solve AdroitHammer and AdriotDoor faster than DreamerV2(P2E), proving the effectiveness of our intrinsic reward design. 
+            Our method reliably discovers solutions in environments that are extremely challenging for other methods 
+            (e.g., the StickPull environment), 
+            clearly demonstrating the advantages of our method in exploration. Notably, we find that MBSAC(R), 
+            which is equipped with our object-centric RND, 
+            is a strong baseline that can solve AdroitHammer and AdriotDoor faster than DreamerV2(P2E), 
+            proving the effectiveness of our intrinsic reward design. 
             TDMPC(R) has a comparable performance with MBSAC(R) on several environments. 
             We validate that it has a faster exploration speed in Adroit Environments thanks to latent planning. 
-            We find that the Dreamer(P2E) does not perform well except for the Block environment without the object prior and is unable to explore the state space well.
+            We find that the Dreamer(P2E) does not perform well except for the Block environment without the object prior 
+            and is unable to explore the state space well.
           </p>
         </div>
       </div>
@@ -507,7 +514,7 @@
   <div class="container">
     <div class="content has-text-centered">
       <a class="icon-link"
-         href="https://github.com/haosulab/RPG/blob/main/icml2023_rpg_camera_ready.pdf">
+         href="static/icml2023_rpg_camera_ready.pdf">
         <i class="fas fa-file-pdf"></i>
       </a>
       <a class="icon-link" href="https://github.com/haosulab/RPG" class="external-link" disabled>

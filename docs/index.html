@@ -1,1 +1,530 @@
-initial commit
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Reparameterized Policy Learning for Multimodal Trajectory Optimization">
+  <meta name="keywords" content="RPG, Reparameterized Policy, Reinforcement Learning">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reparameterized Policy Learning</title>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.ico">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Reparameterized Policy Learning <a href="https://haosulab.github.io/RPG/"><img src="static/images/favicon-32x32.png"></a><br> for Multimodal Trajectory Optimization</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://sites.google.com/view/zhiao-huang">Zhiao Huang</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://www.litianliang.org/">Litian Liang</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://lz1oceani.github.io/">Zhan Ling</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://xuanlinli17.github.io/">Xuanlin Li</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://people.csail.mit.edu/ganchuang/">Chuang Gan</a><sup>2,3</sup>,
+            </span>
+            <span class="author-block">
+              <a href="http://ai.ucsd.edu/~haosu/">Hao Su</a><sup>1</sup>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>UC San Diego</span>
+            <span class="author-block"><sup>2</sup>MIT-IBM Watson AI Lab</span>
+            <span class="author-block"><sup>3</sup>UMass Amherst</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="https://github.com/haosulab/RPG/blob/main/icml2023_rpg_camera_ready.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://colab.research.google.com/github/haosulab/RPG"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code (coming soon)</span>
+                  </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div class="container is-four-fifths">
+        <div class="columns is-centered has-text-centered is-four-fifths">
+
+          <div class="column is-5">
+            <img src="./static/images/teaser_rich.png" width="100%">
+          </div>
+
+          <div class="column is-2">
+            <video id="teaser" autoplay muted loop playsinline height="100%">
+              <source src="./static/videos/block.mp4" type="video/mp4">
+            </video>
+          </div>
+
+          <div class="column is-2">
+            <video id="teaser" autoplay muted loop playsinline height="100%">
+              <source src="./static/videos/eearm.mp4" type="video/mp4">
+            </video>
+          </div>
+
+          <div class="column is-2">
+            <video id="teaser" autoplay muted loop playsinline height="100%">
+              <source src="./static/videos/stickpull/eval5.mp4" type="video/mp4">
+            </video>
+          </div>
+
+        </div>
+        <p class="subtitle has-text-centered">
+          Our method, <span class="dnerf">Reparameterized Policy Gradient (RPG)</span>, outperforms current approaches <br> on several challenging sparse reward and multimodal continuous control tasks
+        </p>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light is-small"><br>
+  <h1 class="title has-text-centered">Abstract</h1>
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified has-text-black">
+          <p>
+            We investigate the challenge of parametrizing policies for Reinforcement Learning (RL) in high-dimensional continuous action spaces. 
+            Our objective is to develop a multimodal policy that overcomes limitations inherent in the commonly-used Gaussian parameterization. 
+            To achieve this, we propose a principled framework that models the continuous RL policy as a generative model of optimal trajectories.
+            By conditioning the policy on a latent variable, we derive a novel variational bound as the optimization objective, 
+            which promotes exploration of the environment. 
+            We then present a practical model-based RL method, 
+            called <span class="dnerf">Reparameterized Policy Gradient (RPG)</span>, 
+            which leverages the multimodal policy parameterization and learned world model to achieve strong exploration capabilities and high data efficiency. 
+            Empirical results demonstrate that our method can help agents evade local optima in tasks with dense rewards and solve challenging 
+            sparse-reward environments by incorporating an object-centric intrinsic reward. 
+            Our method consistently outperforms previous approaches across a range of tasks. 
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-one-fifth">
+            <video autoplay muted loop playsinline width="auto" height="100px">
+              <source src="./static/videos/stickpull/eval1.mp4" type="video/mp4">
+            </video>
+            <!-- <h2 class="subtitle has-text-centered">20k</h2> -->
+          </div>
+          <div class="column is-one-fifth">
+            <video autoplay muted loop playsinline width="auto" height="100px">
+              <source src="./static/videos/stickpull/eval2.mp4" type="video/mp4">
+            </video>
+            <!-- <h2 class="subtitle has-text-centered">200k</h2> -->
+          </div>
+          <div class="column is-one-fifth">
+            <video autoplay muted loop playsinline width="auto" height="100px">
+              <source src="./static/videos/stickpull/eval3.mp4" type="video/mp4">
+            </video>
+            <!-- <h2 class="subtitle has-text-centered">400k</h2> -->
+          </div>
+          <div class="column is-one-fifth">
+            <video autoplay muted loop playsinline width="auto" height="100px">
+              <source src="./static/videos/stickpull/eval4.mp4" type="video/mp4">
+            </video>
+            <!-- <h2 class="subtitle has-text-centered">600k</h2> -->
+          </div>
+          <div class="column is-one-fifth">
+            <video autoplay muted loop playsinline width="auto" height="100px">
+              <source src="./static/videos/stickpull/eval5.mp4" type="video/mp4">
+            </video>
+            <!-- <h2 class="subtitle has-text-centered">800k</h2> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-one-fifth">
+            <video autoplay muted loop playsinline width="auto" height="100px">
+              <source src="./static/videos/eearm/eval1.mp4" type="video/mp4">
+            </video>
+            <h2 class="subtitle has-text-centered">20k</h2>
+          </div>
+          <div class="column is-one-fifth">
+            <video autoplay muted loop playsinline width="auto" height="100px">
+              <source src="./static/videos/eearm/eval2.mp4" type="video/mp4">
+            </video>
+            <h2 class="subtitle has-text-centered">250k</h2>
+          </div>
+          <div class="column is-one-fifth">
+            <video autoplay muted loop playsinline width="auto" height="100px">
+              <source src="./static/videos/eearm/eval3.mp4" type="video/mp4">
+            </video>
+            <h2 class="subtitle has-text-centered">500k</h2>
+          </div>
+          <div class="column is-one-fifth">
+            <video autoplay muted loop playsinline width="auto" height="100px">
+              <source src="./static/videos/eearm/eval4.mp4" type="video/mp4">
+            </video>
+            <h2 class="subtitle has-text-centered">750k</h2>
+          </div>
+          <div class="column is-one-fifth">
+            <video autoplay muted loop playsinline width="auto" height="100px">
+              <source src="./static/videos/eearm/eval5.mp4" type="video/mp4">
+            </video>
+            <h2 class="subtitle has-text-centered">1M</h2>
+          </div>
+        </div>
+        <p class="is-small has-text-black">
+          The policy explores the sparse reward environment and finds the goal condition
+        </p>
+      </div>
+    </div>
+
+
+  </div>
+  <br>
+  </div>
+</section>
+
+
+<section class="hero is-small has-text-black"><br>
+  <h1 class="title has-text-centered">Is Gaussian Policy Good Enough?</h1>
+  <div class="container is-four-fifths">
+    <div class="columns is-centered">
+
+      <div class="column is-3">
+        <img src="./static/images/fig2.png">
+      </div>
+
+      <div class="column is-5">
+        <p>
+          Consider maximizing a continuous reward function with two modalities as shown in (A). 
+          When the action space is properly discretized, a SoftMax policy can model the multimodal distribution and find the global optimum 
+          after sampling over the entire action space as shown in (B). 
+          However, discretization can lead to a loss of accuracy and efficiency. 
+          If we instead use a Gaussian policy by the common practice in literature, we will have trouble -- as shown in (C), 
+          even if its standard deviation is so large to well cover both modalities, the policy gradient can push it towards the local optimum on the right side, 
+          causing it to fail to converge to the global optimum. To address the issue, a more flexible policy parameterization is needed for continuous RL problems, 
+          one that is simple to sample and optimize.
+        </p>
+      </div>
+
+    </div>
+  </div><br>
+</section>
+
+
+<section class="hero is-small has-text-black"><br>
+
+  <h1 class="title has-text-centered">Reward with Local Optima: Continuous Bandit</h1>
+
+  <div class="container is-four-fifths">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <video id="teaser" autoplay muted loop playsinline height="100%">
+          <source src="./static/videos/tiny_rpg.mp4" type="video/mp4">
+        </video>
+        <h2 class="subtitle has-text-centered">
+          <span class="dnerf">Reparameterized Policy Gradient (RPG)</span> optimizes a multimodal trajectory distribution<br>
+        </h2>
+        <div class="has-text-centered">
+          <a target="_blank" href="https://colab.research.google.com/github/haosulab/RPG/blob/main/tiny_rpg/tiny-rpg-bandit.ipynb">
+            <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified has-text-black">
+          <p>
+            This illustrative example compares the performance of our method with a single modality Gaussian policy optimized by REINFORCE. 
+            The Gaussian policy, initialized at 0 with a large standard deviation, can cover the whole solution space. 
+            However, the gradient w.r.t mu is positive, which means the action probability density will be pushed towards the right, 
+            as the expected return on the right side is larger than the left side, although the left side contains a higher extreme value. 
+            As a result, the policy will move right and get stuck at the local optimum with a low chance of jumping out.
+            In contrast, under the entropy maximization formulation, our method maximizes the reward while seeking to increase diversity, 
+            providing more chances for the policy to explore the whole solution space. Furthermore, 
+            by turning the latent variables into action distribution, our method can build a multimodal policy distribution that fits the multimodal rewards, explore
+            both modalities simultaneously, and eventually stabilize at the global optimum. 
+            This experiment suggests that a multimodal policy is necessary for reward maximization, and our method can help the policy better handle local optima.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <br>
+</section>
+
+
+<section class="hero is-small has-text-black"><br>
+
+  <h1 class="title has-text-centered">Model Pipeline</h1>
+
+  <div class="container is-four-fifths">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <img src="./static/images/ModelPipelineV2.png" width="100%">
+      </div>
+  </div>
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified has-text-black">
+          <p>
+            An overview of our model pipeline: A) a reparameterized policy from which we can sample latent variable z and action a given
+            the latent state s; B) a latent dynamics model which can be used to forward simulate the dynamic process when a sequence of actions is
+            known. C) an exploration bonus provided by a density estimator. Our Reparameterized Policy Gradient do multimodal exploration with
+            the help of the latent world model and the exploration bonus.
+          </p>
+        </div>
+      </div>
+    </div>
+  <br>
+</section>
+
+
+
+<section class="hero is-small"><br>
+
+  <h1 class="title has-text-centered">Exploring with Intrinsic Reward: 2D Maze Navigation</h1>
+
+  <div class="container is-four-fifths">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <!-- <img src="./static/images/maze_new.png" width="100%"> -->
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-two-fifths">
+            <video controls height="100%">  
+              <!-- autoplay muted loop playsinline  -->
+              <source src="./static/videos/maze_sac_crop.mp4" type="video/mp4">
+            </video>
+            <h2 class="subtitle has-text-centered">Model-Based SAC</h2>
+          </div>
+          <div class="column is-two-fifths">
+            <video controls height="100%">  
+              <source src="./static/videos/maze_rpg_crop.mp4" type="video/mp4">
+            </video>
+            <h2 class="subtitle has-text-centered">Model-Based RPG</h2>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="column is-2">
+        <img src="./static/images/maze_occ_new.png" width="100%">
+      </div> -->
+    </div><br>
+
+  </div>
+
+  <div class="container is-four-fifths">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified has-text-black">
+          <p>
+            We apply RPG and single-modality model-based SAC on this environment to maximize only the intrinsic reward. 
+            The results suggests that our method explores the domain much faster, quickly reaching most grids, 
+            while the Gaussian agent only covers the right part of the maze within a limited sample budget.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <br>
+</section>
+
+
+<section class="hero is-small"><br>
+
+  <h1 class="title has-text-centered">Experiment Results</h1>
+
+  <div class="container is-four-fifths">
+
+    <div class="columns is-centered has-text-centered is-four-fifths">
+      <div class="column is-one-fifth">
+        <img src="./static/images/envs/opencabinetdoor.png" width="100%">
+        <h3 class="subtitle has-text-centered">Cabinet (Dense)</h3>
+      </div>
+      <div class="column is-one-fifth">
+        <img src="./static/images/envs/AdroitHammer.png" width="100%">
+        <h3 class="subtitle has-text-centered">Hammer</h3>
+      </div>
+      <div class="column is-one-fifth">
+        <img src="./static/images/envs/AdroitDoor.png" width="100%">
+        <h3 class="subtitle has-text-centered">Door</h3>
+      </div>
+      <div class="column is-one-fifth">
+        <img src="./static/images/envs/MWBasketBall.png" width="100%">
+        <h3 class="subtitle has-text-centered">BasketBall</h3>
+      </div>
+    </div>
+  
+    <div class="columns is-centered has-text-centered is-four-fifths">
+      <div class="column is-one-fifth">
+        <img src="./static/images/envs/AntPush.png" width="100%">
+        <h3 class="subtitle has-text-centered">AntPush</h3>
+      </div>
+      <div class="column is-one-fifth">
+        <img src="./static/images/envs/BlockPush2.png" width="100%">
+        <h3 class="subtitle has-text-centered">Block</h3>
+      </div>
+      <div class="column is-one-fifth">
+        <img src="./static/images/envs/EEArm.png" width="100%">
+        <h3 class="subtitle has-text-centered">Cabinet</h3>
+      </div>
+      <div class="column is-one-fifth">
+        <img src="./static/images/envs/MWStickPull.png" width="100%">
+        <h3 class="subtitle has-text-centered">StickPull</h3>
+      </div>
+    </div>
+    
+  </div>
+  <br>
+</section>
+
+
+<section class="hero is-small"><br>
+
+  <!-- <h1 class="title has-text-centered">Experiment Results</h1> -->
+
+  <div class="container is-four-fifths">
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <img src="./static/images/main_results.png" width="100%">
+      </div>
+    </div>
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified has-text-black">
+          <p>
+            We first observe that, for dense reward tasks, our method largely improves the success rate on tasks with local optima. 
+            We can see that in both AntPush and Cabinet (Dense) tasks, our method outperforms all baselines. 
+            Our method consistently finds solutions, regardless of the local optima in the environments. 
+            For example, in the task of opening the cabinets' two doors and going to the two sides of the block, 
+            our method usually explores the two directions simultaneously and converges at the global optima. In contrast, 
+            other methods' performance highly depends on their initialization. If the algorithm starts by opening the wrong doors or pushing the block in the wrong direction, 
+            it will not escape from the local minimums; thus, its success rates are low.
+          </p>
+          <p>
+            Our methods successfully solve the 6 sparse reward tasks. 
+            Especially, it consistently outperforms the MBSAC(R) baseline, 
+            which is a method that only differs from ours by the existence of latent variables to parameterize the policy. 
+            Our method reliably discovers solutions in environments that are extremely challenging for other methods (e.g., the StickPull environment), 
+            clearly demonstrating the advantages of our method in exploration. Notably, we find that MBSAC(R), which is equipped with our object-centric RND, 
+            is a strong baseline that can solve AdroitHammer and AdriotDoor faster than DreamerV2(P2E), proving the effectiveness of our intrinsic reward design. 
+            TDMPC(R) has a comparable performance with MBSAC(R) on several environments. 
+            We validate that it has a faster exploration speed in Adroit Environments thanks to latent planning. 
+            We find that the Dreamer(P2E) does not perform well except for the Block environment without the object prior and is unable to explore the state space well.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{huang2023reparameterized,
+  author    = {Huang, Zhiao and Liang, Litian and Ling, Zhan and Li, Xuanlin and Gan, Chuang and Su, Hao},
+  title     = {Reparameterized Policy Learning for Multimodal Trajectory Optimization},
+  journal   = {ICML},
+  year      = {2023},
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="https://github.com/haosulab/RPG/blob/main/icml2023_rpg_camera_ready.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/haosulab/RPG" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            Webpage design borrowed from <a href="https://github.com/nerfies/nerfies.github.io">nerfies</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

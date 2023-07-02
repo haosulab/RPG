@@ -1,0 +1,12 @@
+Shape:
+  childs:
+    - method: box
+      center: (0.5, 0.07, 0.5)
+      shape_args: (0.4, 0.03, 0.03)
+      color: (0, 0, 255)
+      yield_stress: 200.
+
+Tool:
+  tool_name: Pusher
+  qpos: [0.5, 0.1, 0.45]
+  mode: Capsule

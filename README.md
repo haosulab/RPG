@@ -13,3 +13,11 @@ ICML 2023 (Oral Presentation)
 
 ![](tiny_rpg/tiny_rpg.gif)
 
+
+use the below command for running sparse and dense reward experiments
+```
+cd run
+python3 mbrpg.py --env_name EEArm --exp rpgcv2 --seed 0
+python3 mbrpg.py --env_name AntPushDense --exp dense --seed 0
+```
+

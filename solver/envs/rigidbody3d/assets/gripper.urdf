@@ -1,0 +1,188 @@
+<robot name="robot">
+    <link name="world" />
+    <joint name="base_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="-1.57 0 0" />
+        <parent link="world" />
+        <child link="base" />
+    </joint>
+    <link name="base">
+        <collision>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <box size="0.1 0.1 0.8" />
+            </geometry>
+        </collision>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <box size="0.1 0.1 0.8" />
+            </geometry>
+            <material name="">
+                <color rgba="0.403 0.424 0.420 1"/>
+            </material>
+        </visual>
+    </link>
+    <joint name="link1_joint" type="revolute">
+        <origin xyz="0 0 0.4" rpy="0 1.5708 3.14159" />
+        <parent link="base" />
+        <child link="link1" />
+        <limit effort="0" velocity="0" lower="-3.14159" upper="3.14159" />
+    </joint>
+    <link name="link1">
+        <collision>
+            <origin xyz="-0.0 0.4 0" rpy="3.14159 -1.5708 3.14159" />
+            <geometry>
+                <box size="0.1 0.8 0.1" />
+            </geometry>
+        </collision>
+        <visual>
+            <origin xyz="-0.0 0.4 0" rpy="3.14159 -1.5708 3.14159" />
+            <geometry>
+                <box size="0.1 0.8 0.1" />
+            </geometry>
+            <material name="">
+                <color rgba="0.403 0.424 0.420 1"/>
+            </material>
+        </visual>
+    </link>
+    <joint name="link2_joint" type="revolute">
+        <origin xyz="-0.0 0.8 0" rpy="0 -0 0" />
+        <parent link="link1" />
+        <child link="link2" />
+        <limit effort="0" velocity="0" lower="-3.14159" upper="3.14159" />
+    </joint>
+    <link name="link2">
+        <collision>
+            <origin xyz="-0.0 0.4 0" rpy="3.14159 -1.5708 3.14159" />
+            <geometry>
+                <box size="0.1 0.8 0.1" />
+            </geometry>
+        </collision>
+        <visual>
+            <origin xyz="-0.0 0.4 0" rpy="3.14159 -1.5708 3.14159" />
+            <geometry>
+                <box size="0.1 0.8 0.1" />
+            </geometry>
+            <material name="">
+                <color rgba="0.403 0.424 0.420 1"/>
+            </material>
+        </visual>
+    </link>
+    <joint name="link3_joint" type="prismatic">
+        <origin xyz="-0.0 0.8 0" rpy="0 -0 0" />
+        <parent link="link2" />
+        <child link="link3" />
+        <limit effort="0" velocity="0" lower="-0.2" upper="0.15" />
+    </joint>
+    <link name="link3">
+        <collision>
+            <origin xyz="0 0 0" rpy="1.5708 -1.5708 3.14159" />
+            <geometry>
+                <!-- <capsule radius="0.2"length="2" /> -->
+                <box size="0.1 0.8 0.1"/>
+            </geometry>
+        </collision>
+        <visual>
+            <origin xyz="0 0 0" rpy="1.5708 -1.5708 3.14159" />
+            <geometry>
+                <!-- <capsule radius="0.2"length="2" /> -->
+                <box size="0.1 0.8 0.1"/>
+            </geometry>
+            <material name="">
+                <color rgba="0.403 0.424 0.420 1"/>
+            </material>
+        </visual>
+    </link>
+    <joint name="end_effctor_joint" type="revolute">
+        <origin xyz="0.4 0 0" rpy="1.5708 -0 3.14159" />
+        <parent link="link3" />
+        <child link="end_effector" />
+        <limit effort="0" velocity="0" lower="-3.14159" upper="3.14159" />
+    </joint>
+    <link name="end_effector">
+        <collision>
+            <origin xyz="-0.05 0 0" rpy="0 1.5708 0" />
+            <geometry>
+                <box size="0.2 0.4 0.1" />
+            </geometry>
+        </collision>
+        <visual>
+            <origin xyz="-0.05 0 0" rpy="0 1.5708 0" />
+            <geometry>
+                <box size="0.2 0.4 0.1" />
+            </geometry>
+            <material name="">
+                <color rgba="0.403 0.424 0.420 1"/>
+            </material>
+        </visual>
+    </link>
+    <joint name="left_pad_joint" type="prismatic">
+        <origin xyz="-0.05 -0.25 0.0" rpy="0 -0 1.5708" />
+        <parent link="end_effector" />
+        <child link="left_pad" />
+        <limit effort="0" velocity="0" lower="0" upper="0.2" />
+    </joint>
+    <link name="left_pad">
+        <collision>
+            <origin xyz="0 0.25 0" rpy="0 -0 0" />
+            <geometry>
+                <box size="0.1 0.4 0.2" />
+            </geometry>
+        </collision>
+        <visual>
+            <origin xyz="0 0.25 0" rpy="0 -0 0" />
+            <geometry>
+                <box size="0.1 0.4 0.2" />
+            </geometry>
+            <material name="">
+                <color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+    </link>
+    <joint name="right_pad_joint" type="prismatic">
+        <origin xyz="-0.05 0.25 0.0" rpy="0 -0 1.5708" />
+        <parent link="end_effector" />
+        <child link="right_pad" />
+        <limit effort="0" velocity="0" lower="-0.2" upper="0" />
+    </joint>
+    <link name="right_pad">
+        <collision>
+            <origin xyz="0 0.25 0" rpy="0 -0 0" />
+            <geometry>
+                <box size="0.1 0.4 0.2" />
+            </geometry>
+        </collision>
+        <visual>
+            <origin xyz="0 0.25 0" rpy="0 -0 0" />
+            <geometry>
+                <box size="0.1 0.4 0.2" />
+            </geometry>
+            <material name="">
+                <color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+    </link>
+    <!-- <joint name="right_pad_tip_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="right_pad" />
+        <child link="right_pad_tip" />
+        <limit effort="0" velocity="0" lower="-0.2" upper="0" />
+    </joint>
+    <link name="right_pad_tip">
+        <collision>
+            <origin xyz="0 0.25 0" rpy="0 -0 0" />
+            <geometry>
+                <box size="0.1 0.4 0.2" />
+            </geometry>
+        </collision>
+        <visual>
+            <origin xyz="-0.1 0.4 0" rpy="0 -0 0" />
+            <geometry>
+                <box size="0.2 0.1 0.2" />
+            </geometry>
+            <material name="">
+                <color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+    </link> -->
+</robot>
